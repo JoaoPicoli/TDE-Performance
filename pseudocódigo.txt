@@ -1,0 +1,25 @@
+Dados:
+  N = 5
+  garfos = [0 .. N-1]  // garfo i fica entre filósofo i e (i+1)%N
+
+Para cada filósofo p executar em thread separada:
+  leftForkIndex  = p
+  rightForkIndex = (p + 1) % N
+
+  first  = min(leftForkIndex, rightForkIndex)
+  second = max(leftForkIndex, rightForkIndex)
+
+  Loop infinito:
+    pensar()                             // tempo aleatório
+    estado[p] <- "com fome"              // log opcional
+    adquirir(first)                      // bloqueia até o garfo livre
+    log("P" + p + " adquiriu garfo " + first)
+    adquirir(second)
+    log("P" + p + " adquiriu garfo " + second)
+    estado[p] <- "comendo"
+    comer()                              // tempo aleatório
+    liberar(second)
+    log("P" + p + " liberou garfo " + second)
+    liberar(first)
+    log("P" + p + " liberou garfo " + first)
+    estado[p] <- "pensando"
